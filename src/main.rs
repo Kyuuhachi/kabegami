@@ -97,6 +97,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 					if !dirty {
 						dirty = true;
 						conn.change_property(PropMode::REPLACE, e.window, atoms._98_UPDATE, AtomEnum::INTEGER, 32, 0, &[])?;
+						conn.flush()?;
 					}
 				} else if e.atom == atoms._98_UPDATE {
 					print_err(update(e.window));
