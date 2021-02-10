@@ -28,7 +28,11 @@ fn print_err<A>(x: Result<A, Box<dyn std::error::Error>>) -> Option<A> {
 }
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
-	let indir = "./out/";
+	let indir = match &std::env::args().collect::<Vec<_>>()[..] {
+		[] => unreachable!(),
+		[_, a] => a.clone(),
+		[name, ..] => {eprintln!("Usage: {} <dir>", name); std::process::exit(1); }
+	};
 	let (conn, screen_num) = x11rb::connect(None)?;
 	let screen = &conn.setup().roots[screen_num];
 
